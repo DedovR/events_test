@@ -76,30 +76,33 @@ paths:
 
 components:
   schemas:
+    EventResponse:
+      type: object
+      required:
+        - type
+        - state
+        - startedAt
+      properties:
+        type:
+          type: string
+          description: Event type
+        state:
+          type: string
+          enum: [started, finished]
+          description: Event state
+        startedAt:
+          type: string
+          format: date-time
+          description: Event start time
+        finishedAt:
+          type: string
+          format: date-time
+          description: Event finish time, must be empty if state is `started`
+
     EventsResponse:
       type: array
       items:
-        type: object
-        required:
-          - type
-          - state
-          - startedAt
-        properties:
-          type:
-            type: string
-            description: Event type
-          state:
-            type: string
-            enum: [started, finished]
-            description: Event state
-          startedAt:
-            type: string
-            format: date-time
-            description: Event start time
-          finishedAt:
-            type: string
-            format: date-time
-            description: Event finish time, must be empty if state is `started`
+        $ref: '#/components/schemas/EventResponse'
 
     EventRequest:
       type: object
