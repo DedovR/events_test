@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"log"
 
 	"github.com/DedovR/events_test/entity"
 	"github.com/DedovR/events_test/repo"
@@ -38,18 +39,20 @@ func (e *Event) Start(ctx context.Context, t string) error {
     return err
   }
 
+  log.Printf("Start event %s\n", t)
   // Здесь могла быть ваша бизнес-логика
 
   return nil
 }
 
 func (e *Event) Finish(ctx context.Context, t string) error {
+  log.Printf("Finish event %s\n", t)
+  // Здесь могла быть ваша бизнес-логика
+
   err := e.repo.Finish(ctx, t)
   if err != nil {
     return err
   }
-
-  // Здесь могла быть ваша бизнес-логика
 
   return nil
 }

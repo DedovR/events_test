@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
@@ -61,13 +62,29 @@ func (e *Event) GetList(ctx context.Context, t string, limit, offset int64) ([]e
 }
 
 func (e *Event) Start(ctx context.Context, t string) error {
-  event := &entity.Event{
+  event := &entity.Event{}
+  filter := bson.D{
+    {Key: "event_type", Value: t},
+    {Key: "state", Value: 0},
+  }
+  err := e.collection.FindOne(ctx, filter).Decode(event)
+  if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
+    return err
+  }
+
+  // Проверка, что элемент есть в базе. Наверное можно сделать проще
+  if event.Type == t {
+    return nil
+  }
+
+  event = &entity.Event{
+    ID: bson.NewObjectID(),
     Type: t,
     State: 0,
     StartedAt: time.Now(),
   }
 
-  _, err := e.collection.InsertOne(ctx, event)
+  _, err = e.collection.InsertOne(ctx, event)
   if err != nil {
     return err
   }
