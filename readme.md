@@ -1,3 +1,40 @@
+# Запуск сервиса
+
+Для работы нужен docker, go
+
+1. Копируем конфиг
+```bash
+cp .env.example .env
+```
+2. Запускаем mongo в контейнере
+
+```bash
+make up
+```
+3. Запускаем приложение
+```bash
+make start
+```
+4. Запросы
+```bash
+# start event
+curl --location 'localhost:8080/v1/start' --header 'Content-Type: application/json' --data '{"type":"test"}'
+
+# finish event
+curl --location 'localhost:8080/v1/finish' --header 'Content-Type: application/json' --data '{"type":"test"}'
+
+# show events
+curl --location 'localhost:8080/v1'
+```
+
+## TODO-list
+
+- Написать тесты
+- Проверить корнер-кейсы
+- Добавить миграции
+- Накинуть индексы на type, created_at?
+- Добавить промежуточную таблицу active_events, чтобы ускорить проверку для ручек start/finish
+
 ## Сервис хранения событий
 
 Ваша задача написать сервис, который реализует API создания и завершения разных событий. События могут быть разных типов. В базе данных может быть только одно незавершенное событие одного типа.

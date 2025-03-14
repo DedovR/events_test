@@ -8,6 +8,8 @@ import (
 
   "github.com/DedovR/events_test/gateway"
   "github.com/DedovR/events_test/server"
+  "github.com/DedovR/events_test/repo"
+  "github.com/DedovR/events_test/usecase"
   "github.com/joho/godotenv"
   "go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -36,11 +38,13 @@ func main() {
 		}
 	}()
 
-  srv := gateway.NewServer()
+  eventRepo := repo.NewEvent(client)
+  uc := usecase.NewEvent(eventRepo)
+
+  srv := gateway.NewServer(uc)
   r := http.NewServeMux()
   h := api.HandlerFromMux(srv, r)
 
-  log.Println(os.Getenv("HTTP_ADDR"))
   s := &http.Server{
     Handler: h,
     Addr:    os.Getenv("HTTP_ADDR"),

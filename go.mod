@@ -1,10 +1,11 @@
 module github.com/DedovR/events_test
 
-go 1.22
+go 1.24.1
 
-toolchain go1.22.11
+replace github.com/klauspost/compress v1.16.7 => /home/cooler/go/src/github.com/klauspost/compress
 
 require (
+	github.com/joho/godotenv v1.5.1
 	github.com/oapi-codegen/runtime v1.1.1
 	go.mongodb.org/mongo-driver/v2 v2.1.0
 )
@@ -13,7 +14,6 @@ require (
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/uuid v1.5.0 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect

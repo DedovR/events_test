@@ -1,2 +1,5 @@
 .env
 events_test
+go.mod
+go.sum
+data/*
